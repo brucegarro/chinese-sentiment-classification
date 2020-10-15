@@ -1,0 +1,5 @@
+from os.path import join
+
+
+REPO_ROOT = "/home/bruce/repos/"
+DATA_PATH = join(REPO_ROOT, "Ren_CECps-Dictionary/data/CEC_emotionCoprus")
