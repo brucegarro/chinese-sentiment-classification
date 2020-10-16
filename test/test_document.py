@@ -49,7 +49,13 @@ class TestDocument(unittest.TestCase):
                 "text": "说说考研这个事",
                 "length": 7,
                 "polarity": "中性",
-            }
+                "emotion_labals":
+                    {"Joy": 0.0, "Hate": 0.0, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.0, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.0},
+            },
+            "emotion_labals":
+                    {"Joy": 0.0, "Hate": 0.2, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.6, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.4},
+            "paragraphs": [
+            ],
         }
 
         self.assertEqual(results, expected_results)
