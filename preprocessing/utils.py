@@ -13,7 +13,7 @@ def get_data_files(data_path=DATA_PATH):
     ])
     sort_key = lambda name: int((name.split("cet_"))[1].split(".xml")[0])
     data_files =  sorted(data_files, key=sort_key)
-    filepaths = [ join(DATA_PATH, filename) for filename in data_files ]
+    filepaths = [ join(data_path, filename) for filename in data_files ]
     return filepaths
 
 
