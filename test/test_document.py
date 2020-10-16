@@ -1,4 +1,5 @@
 import unittest
+import mock
 from os.path import join
 
 from preprocessing.document import Document
@@ -8,12 +9,12 @@ class TestDocument(unittest.TestCase):
     def setUp(self):
         test_filepath = join("test", "test_xml", "cet_1.xml")
         with open(test_filepath, "r") as file:
-            self.xml_str = file.read()
+            xml_str = file.read()
+        self.document = Document(xml_str)
 
     def test_get_all_sentences_returns_data(self):
-        # Test the first 3 sentences
-        document = Document(self.xml_str)
-        all_sentences_iter = document.get_all_sentence_data()
+        # Just test the first 3 sentences
+        all_sentences_iter = self.document.get_all_sentence_data()
         results = [ next(all_sentences_iter) for _ in range(3) ]
 
         expected_results = [
@@ -41,9 +42,37 @@ class TestDocument(unittest.TestCase):
 
         self.assertEqual(results, expected_results)
 
-    def test_get_document_data(self):
-        document = Document(self.xml_str)
-        results = document.get_document_data()
+    @mock.patch("preprocessing.document.Document.get_all_sentence_data")
+    def test_get_all_paragraphs_return_data(self, get_all_sentence_data):
+        # Just check results for two paragraphs
+        iterator = iter([])
+        get_all_sentence_data.return_value = iterator
+
+        all_paragraphs_iter = self.document.get_all_paragraph_data(self.document.root)
+        results = [ next(all_paragraphs_iter) for _ in range(2) ]
+
+        expected_results = [
+            {
+                "emotion_labals":
+                    {"Joy": 0.0, "Hate": 0.0, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.5, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.0},
+                "sentences": iterator,
+            },
+            {
+                "emotion_labals":
+                    {"Joy": 0.0, "Hate": 0.2, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.5, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.0},
+                "sentences": iterator,
+            },
+        ]
+
+        self.assertEqual(results, expected_results)
+
+
+    @mock.patch("preprocessing.document.Document.get_all_paragraph_data")
+    def test_get_document_data(self, get_all_paragraph_data):
+        iterator = iter([])
+        get_all_paragraph_data.return_value = iterator
+
+        results = self.document.get_document_data()
         expected_results = {
             "title": {
                 "text": "说说考研这个事",
@@ -54,8 +83,7 @@ class TestDocument(unittest.TestCase):
             },
             "emotion_labals":
                     {"Joy": 0.0, "Hate": 0.2, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.6, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.4},
-            "paragraphs": [
-            ],
+            "paragraphs": iterator,
         }
 
         self.assertEqual(results, expected_results)

@@ -44,14 +44,13 @@ class Document(object):
     def get_paragraph_data(self, element):
         paragraph_data = {
             "emotion_labals": get_emotion_labels(element),
-            "sentences": get_all_sentence_data(),
+            "sentences": self.get_all_sentence_data(element),
         }
         return paragraph_data
 
     def get_all_paragraph_data(self, element):
-        return []
-        # for element in self.root.iter("paragraph"):
-        #     yield self.get_paragraph_data(element)
+        for element in self.root.iter("paragraph"):
+            yield self.get_paragraph_data(element)
 
     def get_title_data(self, element):
         title_data = {
