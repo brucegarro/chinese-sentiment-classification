@@ -25,7 +25,7 @@ class Document(object):
         data["sentence"] = element.attrib["S"]
         data["emotion_labals"] = get_emotion_labels(element)
 
-        for node in element.getchildren():
+        for node in element:
             if node.tag in TAG_TO_NAME_MAP:
                 tag = TAG_TO_NAME_MAP[node.tag][0]
                 val = TAG_TO_NAME_MAP[node.tag][1](node.text)

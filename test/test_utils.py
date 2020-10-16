@@ -1,7 +1,7 @@
 import unittest
 from os.path import join
 
-from preprocessing.utils import get_data_files
+from preprocessing.document_manager import get_data_files
 
 
 class TestPreprocessingUtils(unittest.TestCase):
