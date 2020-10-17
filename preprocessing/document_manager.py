@@ -46,4 +46,5 @@ class DocumentManager(object):
 
     def get_random_document(self):
         i = random.randint(0, len(self.documents)-1)
-        return i, self.documents[i]
+        doc_number = i+1
+        return doc_number, self.documents[i]
