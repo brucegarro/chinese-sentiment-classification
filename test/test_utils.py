@@ -12,6 +12,7 @@ class TestPreprocessingUtils(unittest.TestCase):
 		expected_result = [
 			join("test", "test_xml", "cet_1.xml"),
 			join("test", "test_xml", "cet_2.xml"),
+			join("test", "test_xml", "cet_9999.xml"),
 		]
 
 		self.assertEqual(result, expected_result)

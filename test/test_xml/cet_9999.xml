@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<document>
+    <Joy>0.0</Joy>
+    <Hate>0.2</Hate>
+    <Love>0.0</Love>
+    <Sorrow>0.0</Sorrow>
+    <Anxiety>0.6</Anxiety>
+    <Surprise>0.0</Surprise>
+    <Anger>0.0</Anger>
+    <Expect>0.4</Expect>
+    <Topic>考研</Topic>
+    <title T="说说考研这个事">
+        <S_Length>7</S_Length>
+        <Opinion_Fact>opinion</Opinion_Fact>
+        <Polarity>中性</Polarity>
+        <Joy>0.0</Joy>
+        <Hate>0.0</Hate>
+        <Love>0.0</Love>
+        <Sorrow>0.0</Sorrow>
+        <Anxiety>0.0</Anxiety>
+        <Surprise>0.0</Surprise>
+        <Anger>0.0</Anger>
+        <Expect>0.0</Expect>
+    </title>
+    <paragraph>
+        <P_no>第1段情感标注</P_no>
+        <Joy>0.0</Joy>
+        <Hate>0.0</Hate>
+        <Love>0.0</Love>
+        <Sorrow>0.0</Sorrow>
+        <Anxiety>0.5</Anxiety>
+        <Surprise>0.0</Surprise>
+        <Anger>0.0</Anger>
+        <Expect>0.0</Expect>
+        <Topic>考研 费事</Topic>
+        <Summarize_Sentences>1</Summarize_Sentences>
+        <sentence S="考研这个事吧，还挺费事的。">
+            <S_no>第1段第1句标注</S_no>
+            <S_Length>13</S_Length>
+            <Keywords start="-1" position="5" end="-1" Surprise="0" Sorrow="0" POS="y" Opinionholder="0" Love="0" Joy="0" Hate="0" Expect="0" Anxiety="0.2" Anger="0">吧</Keywords>
+            <Keywords start="-1" position="9" end="-1" Surprise="0.0" Sorrow="0" POS="a" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.5" Anger="0">费事</Keywords>
+            <degree_adv start="-1" position="8" modifier_word_position="9" modifier_word_length="2" end="-1">挺</degree_adv>
+            <Opinion_Fact>opinion</Opinion_Fact>
+            <Polarity>消极</Polarity>
+            <Joy>0.0</Joy>
+            <Hate>0.0</Hate>
+            <Love>0.0</Love>
+            <Sorrow>0.0</Sorrow>
+            <Anxiety>0.5</Anxiety>
+            <Surprise>0.0</Surprise>
+            <Anger>0.0</Anger>
+            <Expect>0.0</Expect>
+        </sentence>
+    </paragraph>
+    <paragraph>
+        <P_no>第2段情感标注</P_no>
+        <Joy>0.0</Joy>
+        <Hate>0.2</Hate>
+        <Love>0.0</Love>
+        <Sorrow>0.0</Sorrow>
+        <Anxiety>0.5</Anxiety>
+        <Surprise>0.0</Surprise>
+        <Anger>0.0</Anger>
+        <Expect>0.0</Expect>
+        <Topic>考研</Topic>
+        <Summarize_Sentences>1</Summarize_Sentences>
+        <sentence S="一是费力，费体力，每天一大清早就得起来，特别是北邮的占座形势，尤其需要体力强一些，弱柳扶风的小女孩们千万别拿自己的娇躯开玩笑，和那些蹿得比兔子还快的男生们抢座位。">
+            <S_no>第2段第1句标注</S_no>
+            <S_Length>81</S_Length>
+            <Keywords start="-1" position="2" end="-1" Surprise="0.0" Sorrow="0" POS="a" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.4" Anger="0">费力</Keywords>
+            <Keywords start="-1" position="12" end="-1" Surprise="0.0" Sorrow="0" POS="n" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0.2" Expect="0.0" Anxiety="0.3" Anger="0">大清早</Keywords>
+            <Keywords start="-1" position="20" end="-1" Surprise="0.0" Sorrow="0" POS="d" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.4" Anger="0">特别</Keywords>
+            <Keywords start="-1" position="31" end="-1" Surprise="0" Sorrow="0" POS="d" Opinionholder="0" Love="0" Joy="0" Hate="0" Expect="0" Anxiety="0.4" Anger="0">尤其</Keywords>
+            <Keywords start="-1" position="33" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.4" Anger="0">需要</Keywords>
+            <Keywords start="-1" position="37" end="-1" Surprise="0" Sorrow="0" POS="a" Opinionholder="0" Love="0.5" Joy="0" Hate="0" Expect="0" Anxiety="0.0" Anger="0">强</Keywords>
+            <Keywords start="-1" position="41" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.4" Anger="0">弱柳扶风</Keywords>
+            <Keywords start="-1" position="50" end="-1" Surprise="0.0" Sorrow="0" POS="m" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.5" Anxiety="0.0" Anger="0">千万</Keywords>
+            <Keywords start="-1" position="57" end="-1" Surprise="0.0" Sorrow="0" POS="n" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.3" Anger="0">娇躯</Keywords>
+            <Keywords start="-1" position="59" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.0" Joy="0.3" Hate="0" Expect="0.0" Anxiety="0.0" Anger="0">开玩笑</Keywords>
+            <Keywords start="-1" position="77" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.3" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.0" Anger="0">抢</Keywords>
+            <noword start="-1" position="52" modifier_word_position="53" modifier_word_length="9" end="-1">别</noword>
+            <E_phrase start="5" position="5" end="7" Surprise="0.0" Sorrow="0" POS="n" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.4" Anger="0">费</E_phrase>
+            <E_phrase start="15" position="15" end="16" Surprise="0.0" Sorrow="0" POS="d" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0.2" Expect="0.0" Anxiety="0.4" Anger="0">就</E_phrase>
+            <Rhetoric E_type="焦虑">比喻</Rhetoric>
+            <Opinion_Fact>opinion</Opinion_Fact>
+            <Polarity>消极</Polarity>
+            <Joy>0.0</Joy>
+            <Hate>0.2</Hate>
+            <Love>0.0</Love>
+            <Sorrow>0.0</Sorrow>
+            <Anxiety>0.4</Anxiety>
+            <Surprise>0.0</Surprise>
+            <Anger>0.0</Anger>
+            <Expect>0.0</Expect>
+        </sentence>
+        <sentence S="一天十多小时的复习也需要健健康康的身体来支撑，否则万一晕倒在自习室里可就不妙了。">
+            <S_no>第2段第2句标注</S_no>
+            <S_Length>40</S_Length>
+            <Keywords start="-1" position="10" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.3" Anxiety="0.0" Anger="0">需要</Keywords>
+            <Keywords start="-1" position="12" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.6" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.0" Anger="0">健健康康</Keywords>
+            <Keywords start="-1" position="20" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.4" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.0" Anger="0">支撑</Keywords>
+            <Keywords start="-1" position="25" end="-1" Surprise="0.0" Sorrow="0" POS="d" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.5" Anger="0">万一</Keywords>
+            <Keywords start="-1" position="27" end="-1" Surprise="0.0" Sorrow="0" POS="v" Opinionholder="0" Love="0.0" Joy="0.0" Hate="0" Expect="0.0" Anxiety="0.5" Anger="0">晕倒</Keywords>
+            <Keywords start="-1" position="37" end="-1" Surprise="0.0" Sorrow="0" POS="a" Opinionholder="0" Love="0.0" Joy="0.5" Hate="0" Expect="0.0" Anxiety="0.0" Anger="0">妙</Keywords>
+            <noword start="-1" position="36" modifier_word_position="37" modifier_word_length="1" end="-1">不</noword>
+            <E_conjunction start="-1" position="23" next_position="23" modifier_word_position="25" modifier_word_length="14" end="-1">否则</E_conjunction>
+            <Opinion_Fact>opinion</Opinion_Fact>
+            <Polarity>消极</Polarity>
+            <Joy>0.0</Joy>
+            <Hate>0.0</Hate>
+            <Love>0.0</Love>
+            <Sorrow>0.0</Sorrow>
+            <Anxiety>0.5</Anxiety>
+            <Surprise>0.0</Surprise>
+            <Anger>0.0</Anger>
+            <Expect>0.0</Expect>
+        </sentence>
+    </paragraph>
+</document>

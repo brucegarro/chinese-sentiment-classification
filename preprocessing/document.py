@@ -38,9 +38,9 @@ class Document(object):
 
         return data
 
-    def get_all_sentence_data(self, element):
+    def get_all_sentence_data(self, parent_element):
         sentence_data = []
-        for element in self.root.iter("sentence"):
+        for element in parent_element.iter("sentence"):
             sentence_data.append(self.get_sentence_data(element))
         return sentence_data
 
@@ -51,9 +51,11 @@ class Document(object):
         }
         return paragraph_data
 
-    def get_all_paragraph_data(self, element):
+    def get_all_paragraph_data(self):
         paragraph_data = []
+        elements = []
         for element in self.root.iter("paragraph"):
+            elements.append(element)
             paragraph_data.append(self.get_paragraph_data(element))
         return paragraph_data
 
@@ -70,7 +72,7 @@ class Document(object):
         document_data = {
             "title": self.get_title_data(title_element),
             "emotion_labals": get_emotion_labels(self.root),
-            "paragraphs": self.get_all_paragraph_data(self.root),
+            "paragraphs": self.get_all_paragraph_data(),
         }
         return document_data
 
