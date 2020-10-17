@@ -80,9 +80,10 @@ class Document(object):
         self.data = self.get_document_data()
 
     @staticmethod
-    def get_body_text(paragraphs):
+    def get_body_html(paragraphs):
         body_text = ""
         for paragraph in paragraphs:
             sentence_text = "".join([ sentence["text"] for sentence in paragraph["sentences"]])
-            body_text += ("    %s\n\n" % sentence_text)
+            item = "<p style='font-size: 18px; font-family: Sans-Serif;'>" + sentence_text + "</p>"
+            body_text += item
         return body_text
