@@ -18,6 +18,7 @@ class Document(object):
             The raw xml for a blog post document as a string
         """
         self.root = ET.fromstring(xml_str)
+        self.data = {}
 
     def get_data_by_tags(self, element):
         data = {}
@@ -37,9 +38,11 @@ class Document(object):
 
         return data
 
-    def get_all_sentence_data(self):
+    def get_all_sentence_data(self, element):
+        sentence_data = []
         for element in self.root.iter("sentence"):
-            yield self.get_sentence_data(element)
+            sentence_data.append(self.get_sentence_data(element))
+        return sentence_data
 
     def get_paragraph_data(self, element):
         paragraph_data = {
@@ -49,8 +52,10 @@ class Document(object):
         return paragraph_data
 
     def get_all_paragraph_data(self, element):
+        paragraph_data = []
         for element in self.root.iter("paragraph"):
-            yield self.get_paragraph_data(element)
+            paragraph_data.append(self.get_paragraph_data(element))
+        return paragraph_data
 
     def get_title_data(self, element):
         title_data = {
@@ -68,3 +73,14 @@ class Document(object):
             "paragraphs": self.get_all_paragraph_data(self.root),
         }
         return document_data
+
+    def cache_data(self):
+        self.data = self.get_document_data()
+
+    @staticmethod
+    def get_body_text(paragraphs):
+        body_text = ""
+        for paragraph in paragraphs:
+            sentence_text = "".join([ sentence["text"] for sentence in paragraph["sentences"]])
+            body_text += ("    %s\n\n" % sentence_text)
+        return body_text

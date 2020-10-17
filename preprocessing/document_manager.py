@@ -1,4 +1,5 @@
 import os
+import random
 from os.path import join
 
 from settings.settings import DATA_PATH
@@ -17,8 +18,9 @@ def get_data_files(data_path=DATA_PATH):
     return filepaths
 
 class DocumentManager(object):
-    def __init__(self):
+    def __init__(self, seed_constant=1337):
         self.documents = []
+        random.seed(seed_constant)
 
     def load_all_documents(self, data_path=DATA_PATH):
         all_filepaths = get_data_files(data_path=data_path)
@@ -33,11 +35,15 @@ class DocumentManager(object):
         self.documents = self.load_all_documents()
 
     def get_all_sentence_data(self):
-        if len(documents) == 0:
+        if len(self.documents) == 0:
             raise RuntimeError("Documents have not been populated. Call 'cache_documents'.")
 
         all_sentence_data = []
         for document in self.documents:
-            for sentence_data in document.get_all_sentence_data():
+            for sentence_data in document.get_all_sentence_data(document):
                 all_sentence_data.append(sentence_data)
         return all_sentence_data
+
+    def get_random_document(self):
+        i = random.randint(0, len(self.documents)-1)
+        return i, self.documents[i]

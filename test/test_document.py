@@ -14,8 +14,8 @@ class TestDocument(unittest.TestCase):
 
     def test_get_all_sentences_returns_data(self):
         # Just test the first 3 sentences
-        all_sentences_iter = self.document.get_all_sentence_data()
-        results = [ next(all_sentences_iter) for _ in range(3) ]
+        all_sentences = self.document.get_all_sentence_data(self.document)
+        results = all_sentences[:3]
 
         expected_results = [
             {
@@ -45,22 +45,21 @@ class TestDocument(unittest.TestCase):
     @mock.patch("preprocessing.document.Document.get_all_sentence_data")
     def test_get_all_paragraphs_return_data(self, get_all_sentence_data):
         # Just check results for two paragraphs
-        iterator = iter([])
-        get_all_sentence_data.return_value = iterator
+        get_all_sentence_data.return_value = []
 
-        all_paragraphs_iter = self.document.get_all_paragraph_data(self.document.root)
-        results = [ next(all_paragraphs_iter) for _ in range(2) ]
+        all_paragraphs = self.document.get_all_paragraph_data(self.document.root)
+        results = all_paragraphs[:2]
 
         expected_results = [
             {
                 "emotion_labals":
                     {"Joy": 0.0, "Hate": 0.0, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.5, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.0},
-                "sentences": iterator,
+                "sentences": [],
             },
             {
                 "emotion_labals":
                     {"Joy": 0.0, "Hate": 0.2, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.5, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.0},
-                "sentences": iterator,
+                "sentences": [],
             },
         ]
 
@@ -69,8 +68,7 @@ class TestDocument(unittest.TestCase):
 
     @mock.patch("preprocessing.document.Document.get_all_paragraph_data")
     def test_get_document_data(self, get_all_paragraph_data):
-        iterator = iter([])
-        get_all_paragraph_data.return_value = iterator
+        get_all_paragraph_data.return_value = []
 
         results = self.document.get_document_data()
         expected_results = {
@@ -83,7 +81,7 @@ class TestDocument(unittest.TestCase):
             },
             "emotion_labals":
                     {"Joy": 0.0, "Hate": 0.2, "Love": 0.0, "Sorrow": 0.0, "Anxiety": 0.6, "Surprise": 0.0, "Anger": 0.0, "Expect": 0.4},
-            "paragraphs": iterator,
+            "paragraphs": [],
         }
 
         self.assertEqual(results, expected_results)
