@@ -1,5 +1,10 @@
 from preprocessing.enums import EmotionTag
 
+TAG_TO_NAME_MAP = {
+    "S_Length": ("length", lambda x: int(x)),
+    "Polarity": ("polarity", lambda x: x),
+    "Topic": ("topic", lambda x: x),
+}
 
 def get_emotion_labels(element):
     """
@@ -12,3 +17,12 @@ def get_emotion_labels(element):
         if node.tag in emotion_label_map:
             emotion_labels[node.tag] = float(node.text)
     return emotion_labels
+
+def get_data_by_tags(element):
+    data = {}
+    for node in element:
+        if node.tag in TAG_TO_NAME_MAP:
+            tag =  TAG_TO_NAME_MAP[node.tag][0]
+            val = TAG_TO_NAME_MAP[node.tag][1](node.text)
+            data[tag] = val
+    return data
