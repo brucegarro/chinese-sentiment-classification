@@ -12,14 +12,9 @@ class Document(object):
         xml : str
             The raw xml for a blog post document as a string
         """
-        self.root = ET.fromstring(xml_str)
         self.data = {}
-
-    def get_all_sentence_data(self, parent_element):
-        return SentenceManager.get_all_sentences(parent_element)
-
-    def get_all_paragraph_data(self):
-        return ParagraphManager.get_all_paragraphs(self.root)
+        self.root = ET.fromstring(xml_str)
+        self.paragraphs = []
 
     def get_title_data(self, element):
         title_data = {
@@ -29,17 +24,23 @@ class Document(object):
         title_data.update(get_data_by_tags(element))
         return title_data
 
+    def get_all_sentences(self, parent_element):
+        return SentenceManager.get_all_sentences(parent_element)
+
+    def get_all_paragraphs(self):
+        return ParagraphManager.get_all_paragraphs(self.root)
+
     def get_document_data(self):
         title_element = self.root.find('title')
         document_data = {
             "title": self.get_title_data(title_element),
             "emotion_labals": get_emotion_labels(self.root),
-            "paragraphs": ParagraphManager.get_all_paragraphs(),
         }
         return document_data
 
     def cache_data(self):
         self.data = self.get_document_data()
+        self.paragraphs = self.get_all_paragraphs(self.root)
 
     @staticmethod
     def get_body_html(paragraphs):
