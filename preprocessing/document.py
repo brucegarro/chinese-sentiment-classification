@@ -41,13 +41,13 @@ class Document(object):
 
     def cache_data(self):
         self.data = self.get_document_data()
-        self.paragraphs = self.get_all_paragraphs(self.root)
+        self.paragraphs = self.get_all_paragraphs()
 
     @staticmethod
     def get_body_html(paragraphs):
         body_text = ""
         for paragraph in paragraphs:
-            sentence_text = "".join([ sentence["text"] for sentence in paragraph["sentences"]])
+            sentence_text = "".join([ sentence.text for sentence in paragraph.sentences])
             item = "<p style='font-size: 18px; font-family: Sans-Serif;'>" + sentence_text + "</p>"
             body_text += item
         return body_text
