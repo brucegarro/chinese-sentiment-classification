@@ -29,6 +29,10 @@ class DocumentManager(object):
             with open(filepath, "r") as file_obj:
                 xml_str = file_obj.read()
             documents.append(Document(xml_str))
+
+        for document in documents:
+            document.cache_data()
+
         return documents
 
     def cache_documents(self):
@@ -40,8 +44,9 @@ class DocumentManager(object):
 
         all_sentence_data = []
         for document in self.documents:
-            for sentence_data in document.get_all_sentence_data(document):
-                all_sentence_data.append(sentence_data)
+            for paragraph in document.paragraphs:
+                for sentence in paragraph.sentences:
+                    all_sentence_data.append(sentence.text)
         return all_sentence_data
 
     def get_random_document(self):
