@@ -4,6 +4,7 @@ from preprocessing.utils import get_emotion_labels, get_data_by_tags
 from preprocessing.sentence import SentenceManager
 from preprocessing.paragraph import ParagraphManager
 
+
 class Document(object):
     def __init__(self, xml_str):
         """
