@@ -45,18 +45,15 @@ def get_embeddings_matrix(tokenizer, embedding_input_path):
 
         # Populated embedding_matrix
         for i in tqdm(range(num_lines)):
-            try:
-                line = next(file_object)
-                embedding = line.rstrip("\n").split(" ")
-                word = embedding[0]
-                if word in tokenizer.word_index:
-                    vector = [ float(coordinate) for coordinate in embedding[1:] ]
-                    token_index = tokenizer.word_index[word]
-                    embedding_matrix[token_index] = vector
+            line = next(file_object)
+            embedding = line.rstrip("\n").split(" ")
+            word = embedding[0]
+            if word in tokenizer.word_index:
+                vector = [ float(coordinate) for coordinate in embedding[1:] ]
+                token_index = tokenizer.word_index[word]
+                embedding_matrix[token_index] = vector
 
-                    found_words.add(word)
-            except:
-                import pdb; pdb.set_trace()
+                found_words.add(word)
 
     did_not_find = (tokenizer.word_index.keys() - found_words)
     print("Found %s words" % len(found_words))
