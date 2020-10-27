@@ -5,7 +5,7 @@ from preprocessing.utils import get_emotion_labels
 class Paragraph(object):
     def __init__(self, data, sentences):
         self.data = data
-        self.emotion_labals = self.data["emotion_labals"]
+        self.emotion_labals = self.data["emotion_labels"]
         self.sentences = sentences
 
 
@@ -13,7 +13,7 @@ class ParagraphManager(object):
     @classmethod
     def get_paragraph_data(cls, element):
         paragraph_data = {
-            "emotion_labals": get_emotion_labels(element),
+            "emotion_labels": get_emotion_labels(element),
         }
         return paragraph_data
 

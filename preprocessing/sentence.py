@@ -5,7 +5,7 @@ class Sentence(object):
     def __init__(self, data):
         self.data = data
         self.text = data["text"]
-        self.emotion_labals = self.data["emotion_labals"]
+        self.emotion_labals = self.data["emotion_labels"]
 
 
 class SentenceManager(object):
@@ -13,7 +13,7 @@ class SentenceManager(object):
     def get_sentence_data(cls, element):
         data = {}
         data["text"] = element.attrib["S"]
-        data["emotion_labals"] = get_emotion_labels(element)
+        data["emotion_labels"] = get_emotion_labels(element)
         data.update(get_data_by_tags(element))
 
         return data

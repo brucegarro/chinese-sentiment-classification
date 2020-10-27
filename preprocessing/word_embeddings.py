@@ -7,8 +7,8 @@ from os.path import join
 import pickle as pkl
 from gensim.models import KeyedVectors
 from tqdm import tqdm
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 
 from settings.settings import (
@@ -69,6 +69,7 @@ def to_pkl(content, output_path):
 def load_pkl(input_path):
     with open(input_path, "rb") as f:
         loaded_obj = pkl.load(f)
+        return loaded_obj
 
 def save_word_embeddings_and_tokenizer(tokenizer, embedding_input_path, embedding_output_path, tokenizer_output_path):
     embedding_matrix = get_embeddings_matrix(tokenizer, embedding_input_path)

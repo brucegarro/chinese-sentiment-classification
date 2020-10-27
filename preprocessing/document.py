@@ -20,7 +20,7 @@ class Document(object):
     def get_title_data(self, element):
         title_data = {
             "text": element.attrib["T"],
-            "emotion_labals": get_emotion_labels(element),
+            "emotion_labels": get_emotion_labels(element),
         }
         title_data.update(get_data_by_tags(element))
         return title_data
@@ -35,7 +35,7 @@ class Document(object):
         title_element = self.root.find('title')
         document_data = {
             "title": self.get_title_data(title_element),
-            "emotion_labals": get_emotion_labels(self.root),
+            "emotion_labels": get_emotion_labels(self.root),
         }
         return document_data
 
