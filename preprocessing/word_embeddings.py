@@ -16,6 +16,7 @@ from settings.settings import (
     RAW_WORD_EMBEDDING_PATH,
 )
 
+
 def get_embeddings_matrix(tokenizer, embedding_input_path):
     """
     Retrieve the word embeddings from 'Tencent_AILab_ChineseEmbedding.txt' for a given vocabulary
