@@ -1,4 +1,9 @@
 import numpy as np
+import functools
+import operator
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+from preprocessing.enums import EmotionTag
 
 
 NUMBER_OF_DOCUMENTS = 1487
@@ -18,12 +23,36 @@ def get_randomization_index():
     return randomization_index
 
 class DatasetManager(object):
-    def __init__(self, test_set_ratio=0.15, validation_set_ratio=0.17):
-    	self.test_set_ratio = test_set_ratio
-    	self.validation_set_ratio = validation_set_ratio
+    def __init__(self, tokenizer, test_set_ratio=0.15, validation_set_ratio=0.17, max_sequence_length=100):
+        self.tokenizer = tokenizer
+        self.test_set_ratio = test_set_ratio
+        self.validation_set_ratio = validation_set_ratio
+        self.max_sequence_length = 100 # 95th percentile for dataset is 84 characters.
+
+    def text_to_sequence(self, text):
+        sequence_lists = self.tokenizer.texts_to_sequences(text)
+        sequence = functools.reduce(operator.iconcat, sequence_lists)
+        return sequence
+
+    def get_labels_as_array(self, all_sentence_labels):
+        label_matrix = np.zeros((len(all_sentence_labels), len(EmotionTag)))
+        for i, label in enumerate(all_sentence_labels):
+            label_matrix[i] = np.array([ label[tag_enum.value] for tag_enum in EmotionTag ])
+        return label_matrix
+
+    def get_sentences_and_labels_as_arrays(self, doc_manager):
+        all_sentence_texts, all_sentence_labels = doc_manager.get_all_sentences_and_labels()
+
+        sentence_sequences = [ self.text_to_sequence(text) for text in all_sentence_texts ]
+        sentences_matrix = pad_sequences(sentence_sequences, maxlen=self.max_sequence_length)
+
+        labels_matrix = self.get_labels_as_array(all_sentence_labels)
+
+        return sentences_matrix, labels_matrix
 
     def create_dataset_from_documents(self, doc_manager):
-        dataset = doc_manager.get_all_sentences_and_labels()
+        sentences_matrix, labels_matrix = self.get_sentences_and_labels_as_arrays(doc_manager)
+        raise NotImplementedError("# TODO: Split into train, valid, test")
 
     def get_test_cutoff_index(self):
         cutoff_index = np.floor(NUMBER_OF_DOCUMENTS * (1 - self.test_set_ratio)) - 1

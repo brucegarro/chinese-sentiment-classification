@@ -32,7 +32,8 @@ class TestRandomization(unittest.TestCase):
 
 class TestDatasetManager(unittest.TestCase):
     def test_train_valid_test_indices_equal_full_indicies(self):
-        dataset_manager = DatasetManager()
+        tokenizer = None
+        dataset_manager = DatasetManager(tokenizer)
 
         full_indices = get_randomization_index()
 

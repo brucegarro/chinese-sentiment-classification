@@ -14,8 +14,11 @@ if __name__ == "__main__":
     tokenizer = load_pkl(KERAS_TOKENIZER_PATH)
 
     # Load the dataset
-    dataset_manager = DatasetManager()
-    train_x, train_y = dataset_manager.create_dataset_from_documents()
+    doc_manager = DocumentManager()
+    doc_manager.cache_documents()
+
+    dataset_manager = DatasetManager(tokenizer)
+    train_x, train_y = dataset_manager.create_dataset_from_documents(doc_manager)
 
     # Create Model
     num_tokens = len(tokenizer.word_index)
@@ -29,6 +32,6 @@ if __name__ == "__main__":
     )
 
     model = Sequential([
-
+        embedding_layer,
     ])
-    model.fit(train_X, train_Y, validation_data=(valid_X, valid_Y)
+    model.fit(train_X, train_Y, validation_data=(valid_X, valid_Y))
