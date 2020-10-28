@@ -4,16 +4,8 @@ from tensorflow.keras.initializers import Constant
 
 from preprocessing.word_embeddings import load_pkl
 from preprocessing.document_manager import DocumentManager
+from preprocessing.dataset_manager import DatasetManager
 from settings.settings import EMBEDDING_MATRIX_PATH, KERAS_TOKENIZER_PATH
-
-
-class DatasetManager(object):
-    def create_dataset_from_documents(self):
-        doc_manager = DocumentManager()
-        doc_manager.cache_documents()
-
-        dataset = doc_manager.get_all_sentences_and_labels()
-        import ipdb; ipdb.set_trace()
 
 
 if __name__ == "__main__":
