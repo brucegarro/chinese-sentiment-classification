@@ -50,10 +50,6 @@ class DatasetManager(object):
 
         return sentences_matrix, labels_matrix
 
-    def create_dataset_from_documents(self, doc_manager):
-        sentences_matrix, labels_matrix = self.get_sentences_and_labels_as_arrays(doc_manager)
-        raise NotImplementedError("# TODO: Split into train, valid, test")
-
     def get_test_cutoff_index(self):
         cutoff_index = np.floor(NUMBER_OF_DOCUMENTS * (1 - self.test_set_ratio)) - 1
         return int(cutoff_index)
@@ -77,3 +73,20 @@ class DatasetManager(object):
         randomization_index = get_randomization_index()
         test_cutoff_index = self.get_test_cutoff_index()
         return randomization_index[test_cutoff_index:]
+
+    def get_dataset_from_documents(self, doc_manager):
+        sentences_matrix, labels_matrix = self.get_sentences_and_labels_as_arrays(doc_manager)
+
+        train_indices = self.get_training_set_indices()
+        valid_indices = self.get_valid_set_indices()
+        test_indices = self.get_test_set_indices()
+
+        dataset = {
+            "train_sequences": sentences_matrix[train_indices],
+            "train_labels": labels_matrix[train_indices],
+            "valid_sequences": sentences_matrix[valid_indices],
+            "valid_labels": labels_matrix[valid_indices],
+            "test_sequences": sentences_matrix[test_indices],
+            "test_labels": labels_matrix[test_indices],
+        }
+        return dataset
