@@ -1,57 +1,18 @@
-import tensorflow as tf
+from tensorflow.compat.v1 import Session, ConfigProto
 from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Embedding, Bidirectional, LSTM, Dense, Dropout
-from tensorflow.keras.initializers import Constant
-from tensorflow.keras.optimizers import SGD
+from tensorflow.keras.layers import Bidirectional, LSTM, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
 
-from preprocessing.word_embeddings import load_pkl
 from preprocessing.document_manager import DocumentManager
 from preprocessing.dataset_manager import DatasetManager
-from settings.settings import EMBEDDING_MATRIX_PATH, KERAS_TOKENIZER_PATH
+from preprocessing.enums import EmotionTag
+from modeling.utils import get_tokenizer, get_embedding_layer
+from modeling.train import train_model
 
-def get_gpu_configurations():
-    GLOBAL_GPU_USAGE_LIMIT = 0.75
-    gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=gpu_usage_limit)
-    return gpu_options
 
-if __name__ == "__main__":
-    # Load Embeddings from pre-compiled embeddings matrix
-    embedding_matrix = load_pkl(EMBEDDING_MATRIX_PATH)
-    tokenizer = load_pkl(KERAS_TOKENIZER_PATH)
-
-    # Load the dataset
-    doc_manager = DocumentManager()
-    doc_manager.cache_documents()
-
-    dataset_manager = DatasetManager(tokenizer)
-    dataset = dataset_manager.get_dataset_from_documents(doc_manager)
-
-    train_sequences = dataset["train_sequences"]
-    train_labels = dataset["train_labels"]
-    valid_sequences = dataset["valid_sequences"]
-    valid_labels = dataset["valid_labels"]
-
-    # Create Model
-    num_tokens = len(tokenizer.word_index) + 1 # ~50,000
-    embedding_dim = embedding_matrix[0].size # 200
-    num_labels = train_labels.shape[1] # 8
-
-    # Hyperparameters
-    dropout_rate = 0.0
-    learning_rate = 0.001
-    training_epochs = 25
-    batch_size = 64
-
-    # optimizer = tf.keras.optimizers.SGD(learning_rate)
-    optimizer = tf.keras.optimizers.Adam(learning_rate)
-
-    # Instantiate Model Layers
-    embedding_layer = Embedding(
-        input_dim=num_tokens,
-        output_dim=embedding_dim,
-        embeddings_initializer=Constant(embedding_matrix),
-        trainable=False,
-    )
+def simple_rnn_model(hyperparameters):
+    num_labels = len(EmotionTag)
+    embedding_layer, num_tokens, embedding_dim = get_embedding_layer()
 
     bidirectional_lstm = Bidirectional(LSTM(embedding_dim))
     # bidirectional_lstm = Bidirectional(LSTM(embedding_dim, return_sequences=True))
@@ -67,24 +28,45 @@ if __name__ == "__main__":
         bidirectional_lstm,
         # second_bidirectional_lstm,
         fully_connected_layer,
-        tf.keras.layers.Dropout(0.2),
+        Dropout(hyperparameters["dropout_rate"]),
         classification_layer,
     ])
 
+    # Fit Model
+    optimizer = Adam(hyperparameters["learning_rate"])
     model.compile(
         loss="categorical_crossentropy",
-        optimizer="adam",
-        metrics=["accuracy"]
+        optimizer=optimizer,
+        metrics=["accuracy"],
     )
 
-    # Fit Model Layers
-    # TODO: Limit gpu usage
-    # gpu_options = get_gpu_configurations()
+    return model
 
-    model.fit(
-        train_sequences,
-        train_labels,
-        validation_data=(valid_sequences, valid_labels),
-        batch_size=batch_size,
-        epochs=training_epochs,
-    )
+def train_simple_rnn():
+    # Load tokenizer
+    tokenizer = get_tokenizer()
+
+    # Load the dataset
+    doc_manager = DocumentManager()
+    doc_manager.cache_documents()
+
+    dataset_manager = DatasetManager(tokenizer)
+    dataset = dataset_manager.get_dataset_from_documents(doc_manager)
+
+    # Hyperparameters
+    hyperparameters = {
+        "dropout_rate": 0.2,
+        "learning_rate": 0.001,
+        "training_epochs": 25,
+        "batch_size": 64,
+    }
+
+    model = simple_rnn_model(hyperparameters)
+
+    train_model(model, dataset, hyperparameters)
+
+    return model
+
+
+if __name__ == "__main__":
+    trained_model = train_simple_rnn()

@@ -8,7 +8,7 @@ from settings.settings import EMBEDDING_MATRIX_PATH, KERAS_TOKENIZER_PATH
 
 def get_gpu_configurations():
     GLOBAL_GPU_USAGE_LIMIT = 0.75
-    gpu_options = GPUOptions(per_process_gpu_memory_fraction=gpu_usage_limit)
+    gpu_options = GPUOptions(per_process_gpu_memory_fraction=GLOBAL_GPU_USAGE_LIMIT)
     return gpu_options
 
 def get_tokenizer():
