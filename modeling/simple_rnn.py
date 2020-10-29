@@ -38,11 +38,12 @@ if __name__ == "__main__":
 
     # Hyperparameters
     dropout_rate = 0.0
-    learning_rate = 0.01
+    learning_rate = 0.001
     training_epochs = 25
-    batch_size = 50
+    batch_size = 64
 
-    optimizer = tf.keras.optimizers.SGD(learning_rate)
+    # optimizer = tf.keras.optimizers.SGD(learning_rate)
+    optimizer = tf.keras.optimizers.Adam(learning_rate)
 
     # Instantiate Model Layers
     embedding_layer = Embedding(
@@ -53,22 +54,26 @@ if __name__ == "__main__":
     )
 
     bidirectional_lstm = Bidirectional(LSTM(embedding_dim))
-    fully_connected_layer = Dense(units=embedding_dim) # TODO: use ReLu as activation
+    # bidirectional_lstm = Bidirectional(LSTM(embedding_dim, return_sequences=True))
+    # second_bidirectional_lstm = Bidirectional(LSTM(100))
+    fully_connected_layer = Dense(units=embedding_dim, activation="relu")
     classification_layer = Dense(
         units=num_labels,
-        activation="softmax",
+        activation="sigmoid",
     )
 
     model = Sequential([
         embedding_layer,
         bidirectional_lstm,
+        # second_bidirectional_lstm,
         fully_connected_layer,
+        tf.keras.layers.Dropout(0.2),
         classification_layer,
     ])
 
     model.compile(
         loss="categorical_crossentropy",
-        optimizer=optimizer,
+        optimizer="adam",
         metrics=["accuracy"]
     )
 
