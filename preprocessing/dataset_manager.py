@@ -7,6 +7,7 @@ from preprocessing.enums import EmotionTag
 
 
 NUMBER_OF_DOCUMENTS = 1487
+NUMBER_OF_SENTENCES = 35038
 
 def get_randomization_index():
     """
@@ -17,7 +18,7 @@ def get_randomization_index():
 
     np.random.seed(HOLDOUT_SEED)
 
-    randomization_index = list(range(NUMBER_OF_DOCUMENTS))
+    randomization_index = list(range(NUMBER_OF_SENTENCES))
     np.random.shuffle(randomization_index)
 
     return randomization_index
@@ -47,15 +48,14 @@ class DatasetManager(object):
         sentences_matrix = pad_sequences(sentence_sequences, maxlen=self.max_sequence_length)
 
         labels_matrix = self.get_labels_as_array(all_sentence_labels)
-
         return sentences_matrix, labels_matrix
 
     def get_test_cutoff_index(self):
-        cutoff_index = np.floor(NUMBER_OF_DOCUMENTS * (1 - self.test_set_ratio)) - 1
+        cutoff_index = np.floor(NUMBER_OF_SENTENCES * (1 - self.test_set_ratio)) - 1
         return int(cutoff_index)
 
     def get_valid_cutoff_index(self):
-        cutoff_index = np.floor(NUMBER_OF_DOCUMENTS * (1 - (self.test_set_ratio + self.validation_set_ratio))) - 1
+        cutoff_index = np.floor(NUMBER_OF_SENTENCES * (1 - (self.test_set_ratio + self.validation_set_ratio))) - 1
         return int(cutoff_index)
 
     def get_training_set_indices(self):

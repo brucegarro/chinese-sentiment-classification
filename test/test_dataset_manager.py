@@ -1,14 +1,14 @@
 import unittest
 import numpy as np
 
-from preprocessing.dataset_manager import get_randomization_index, DatasetManager
+from preprocessing.dataset_manager import get_randomization_index, DatasetManager, NUMBER_OF_SENTENCES
 
 
 class TestRandomization(unittest.TestCase):
-    def test_get_randomization_index_gets_1487_results(self):
+    def test_get_randomization_index_gets_35038_results(self):
         randomization_index = get_randomization_index()
 
-        self.assertEqual(len(randomization_index), 1487)
+        self.assertEqual(len(randomization_index), NUMBER_OF_SENTENCES)
 
     def test_get_randomization_index_shuffles(self):
         randomization_index = get_randomization_index()
