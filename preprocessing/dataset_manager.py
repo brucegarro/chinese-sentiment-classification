@@ -48,7 +48,7 @@ class DatasetManager(object):
         sentences_matrix = pad_sequences(sentence_sequences, maxlen=self.max_sequence_length)
 
         labels_matrix = self.get_labels_as_array(all_sentence_labels)
-        return sentences_matrix, labels_matrix
+        return np.array(all_sentence_texts), sentences_matrix, labels_matrix
 
     def get_test_cutoff_index(self):
         cutoff_index = np.floor(NUMBER_OF_SENTENCES * (1 - self.test_set_ratio)) - 1
@@ -75,17 +75,20 @@ class DatasetManager(object):
         return randomization_index[test_cutoff_index:]
 
     def get_dataset_from_documents(self, doc_manager):
-        sentences_matrix, labels_matrix = self.get_sentences_and_labels_as_arrays(doc_manager)
+        sentence_texts, sentences_matrix, labels_matrix = self.get_sentences_and_labels_as_arrays(doc_manager)
 
         train_indices = self.get_training_set_indices()
         valid_indices = self.get_valid_set_indices()
         test_indices = self.get_test_set_indices()
 
         dataset = {
+            "train_texts": sentence_texts[train_indices],
             "train_sequences": sentences_matrix[train_indices],
             "train_labels": labels_matrix[train_indices],
+            "valid_texts": sentence_texts[valid_indices],
             "valid_sequences": sentences_matrix[valid_indices],
             "valid_labels": labels_matrix[valid_indices],
+            "test_test": sentence_texts[test_indices],
             "test_sequences": sentences_matrix[test_indices],
             "test_labels": labels_matrix[test_indices],
         }
