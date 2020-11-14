@@ -11,3 +11,4 @@ EMBEDDING_MATRIX_PATH = join(EMBEDDING_DATA_ROOT, "embedding_matrix_for_vocabula
 KERAS_TOKENIZER_PATH = join(EMBEDDING_DATA_ROOT, "keras_tokenizer_for_vocabulary.pkl")
 
 SAVED_MODELS_PATH = join(REPO_ROOT, "saved_models")
+LOGS_PATH = join(REPO_ROOT, "logs")

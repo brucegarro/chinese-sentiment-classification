@@ -101,5 +101,5 @@ def train_double_layer_rnn(use_previous=False):
 
 
 if __name__ == "__main__":
-    use_previous = True
+    use_previous = False
     trained_model = train_double_layer_rnn(use_previous=use_previous)
