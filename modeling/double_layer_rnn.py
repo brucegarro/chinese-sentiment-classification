@@ -9,12 +9,11 @@ from preprocessing.document_manager import DocumentManager
 from preprocessing.dataset_manager import DatasetManager
 from preprocessing.enums import EmotionTag
 from modeling.utils import get_tokenizer, get_embedding_layer
-from modeling.train import (
-    train_model,
+from modeling.train import train_model, get_model_checkpoint
+from modeling.metrics import (
     rounded_to_tenth_categorical_accuracy,
     rounded_equal,
     rounded_mean_absolute_error,
-    get_model_checkpoint,
 )
 from settings.settings import SAVED_MODELS_PATH
 
@@ -34,8 +33,14 @@ def double_layer_rnn_model(hyperparameters):
         activation="linear",
     )
 
+    # Reference for how dropout is being selected for this model.
+    # https://becominghuman.ai/learning-note-dropout-in-recurrent-networks-part-1-57a9c19a2307
+    #   Gal and Ghahramani [6] also propose a new way to regularize word embedding, in addition
+    #   to apply dropout on inputs. They suggest dropout be used on word type, instead of individual words.
+    #   That is, randomly setting rows of the embedding matrix to zero.
     model = Sequential([
         embedding_layer,
+        Dropout(0.05),
         bidirectional_lstm,
         second_bidirectional_lstm,
         fully_connected_layer,
@@ -70,7 +75,7 @@ def train_double_layer_rnn(use_previous=False):
 
     # Hyperparameters
     hyperparameters = {
-        "dropout_rate": 0.2,
+        "dropout_rate": 0.1,
         "learning_rate": 0.005,
         "training_epochs": 25,
         "batch_size": 64,

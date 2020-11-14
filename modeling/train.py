@@ -9,24 +9,9 @@ from modeling.utils import get_gpu_configurations
 from settings.settings import SAVED_MODELS_PATH
 
 
-def rounded_to_tenth_categorical_accuracy(y_true, y_pred):
-    rounded_y_pred = tf.math.round(y_pred * 10) / 10
-    # return K.mean(K.square(y_true - rounded_y_pred))
-    return categorical_accuracy(y_true, rounded_y_pred)
-
-def rounded_equal(y_true, y_pred):
-    rounded_y_pred = tf.math.round(y_pred * 10) / 10
-    # return K.mean(K.square(y_true - rounded_y_pred))
-    return K.mean(K.equal(y_true, rounded_y_pred))
-
-def rounded_mean_absolute_error(y_true, y_pred):
-    rounded_y_pred = tf.math.round(y_pred * 10) / 10
-    # return K.mean(K.square(y_true - rounded_y_pred))
-    return mean_absolute_error(y_true, rounded_y_pred)
-
 def get_model_checkpoint(output_filepath=None):
     if not output_filepath:
-        output_filepath = join(SAVED_MODELS_PATH, "tmp_model.pkl")
+        output_filepath = join(SAVED_MODELS_PATH, "tmp_model")
 
     return ModelCheckpoint(
         filepath=output_filepath,

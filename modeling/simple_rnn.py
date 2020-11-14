@@ -11,12 +11,11 @@ from preprocessing.document_manager import DocumentManager
 from preprocessing.dataset_manager import DatasetManager
 from preprocessing.enums import EmotionTag
 from modeling.utils import get_tokenizer, get_embedding_layer
-from modeling.train import (
-    train_model,
+from modeling.train import train_model, get_model_checkpoint
+from modeling.metrics import (
     rounded_to_tenth_categorical_accuracy,
     rounded_equal,
     rounded_mean_absolute_error,
-    get_model_checkpoint,
 )
 from settings.settings import SAVED_MODELS_PATH
 
