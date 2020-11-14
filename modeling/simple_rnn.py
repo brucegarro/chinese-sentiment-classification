@@ -29,9 +29,12 @@ def simple_rnn_model(hyperparameters):
     num_labels = len(EmotionTag)
     embedding_layer, num_tokens, embedding_dim = get_embedding_layer()
 
-    bidirectional_lstm = Bidirectional(LSTM(embedding_dim))
-    # bidirectional_lstm = Bidirectional(LSTM(embedding_dim, return_sequences=True))
-    # second_bidirectional_lstm = Bidirectional(LSTM(100))
+
+    bidirectional_lstm = Bidirectional(
+        LSTM(embedding_dim,
+            recurrent_dropout=hyperparameters["dropout"]["recurrent_dropout"],
+        ),
+    )
     fully_connected_layer = Dense(units=embedding_dim, activation="relu")
     classification_layer = Dense(
         units=num_labels,
@@ -70,7 +73,7 @@ def simple_rnn_model(hyperparameters):
     return model
 
 
-def train_simple_rnn(use_previous=True):
+def train_simple_rnn(use_previous=False):
     # Load tokenizer
     tokenizer = get_tokenizer()
 
@@ -144,4 +147,5 @@ def train_simple_rnn(use_previous=True):
 
 
 if __name__ == "__main__":
-    trained_model = train_simple_rnn()
+    use_previous = True
+    trained_model = train_simple_rnn(use_previous=use_previous)
