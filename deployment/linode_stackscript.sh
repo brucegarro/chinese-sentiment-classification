@@ -5,7 +5,6 @@
 # Update packages
 apt-get update
 
-
 # Show Nvidia hardware available
 lspci | grep -i nvidia
 
