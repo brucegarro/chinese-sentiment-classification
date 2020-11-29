@@ -1,8 +1,6 @@
 import os
 from os.path import join
 
-from settings.local import *
-
 
 if os.getenv("REPO_PATH"):
 	ALL_REPOS_ROOT = os.getenv("REPO_PATH")

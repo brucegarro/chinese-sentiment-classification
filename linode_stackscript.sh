@@ -49,4 +49,8 @@ source ~/.virtualenvs/csc/bin/activate
 # Install Python libraries
 pip install -r ~/repos/chinese-sentiment-classification/requirements.txt
 
+# Setup some environment variables used in the project
+echo 'export PYTHONPATH="${PYTHONPATH}:/root/repos/chinese-sentiment-classification"' >> ~/.bashrc
+echo 'export REPO_PATH="/root/repos"' >> ~/.bashrc
+
 reboot
