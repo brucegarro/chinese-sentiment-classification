@@ -42,13 +42,11 @@ def simple_rnn_model(hyperparameters):
         # activation="categorical_crossentropy",
     )
 
-    input_dropout_layer = Dropout(hyperparameters["dropout"]["input_dropout"])
     lstm_output_dropout_layer = Dropout(hyperparameters["dropout"]["lstm_output_dropout"])
     fully_connected_dropout_layer = Dropout(hyperparameters["dropout"]["fully_connected_dropout"])
 
     model = Sequential([
         embedding_layer,
-        input_dropout_layer,
         bidirectional_lstm,
         lstm_output_dropout_layer,
         fully_connected_layer,
@@ -73,7 +71,7 @@ def simple_rnn_model(hyperparameters):
     return model
 
 
-def train_simple_rnn(use_previous=False):
+def train_simple_rnn(use_previous=False, add_tensorboard=True):
     # Load tokenizer
     tokenizer = get_tokenizer()
 
@@ -86,10 +84,12 @@ def train_simple_rnn(use_previous=False):
 
     # Define hyperparameters to tune
     dropout = [
-        hp.HParam("input_dropout", hp.Discrete([0.0, 0.05])),
-        hp.HParam("recurrent_dropout", hp.Discrete([0.0, 0.1])),
-        hp.HParam("lstm_output_dropout", hp.Discrete([0.0, 0.1])),
-        hp.HParam("fully_connected_dropout", hp.Discrete([0.0, 0.1])),
+        # hp.HParam("recurrent_dropout", hp.Discrete([0.0, 0.1])),
+        # hp.HParam("lstm_output_dropout", hp.Discrete([0.0, 0.1])),
+        # hp.HParam("fully_connected_dropout", hp.Discrete([0.0, 0.1])),
+        hp.HParam("recurrent_dropout", hp.Discrete([0.0, 0.1, 0.2])),
+        hp.HParam("lstm_output_dropout", hp.Discrete([0.0, 0.1, 0.2, 0.4])),
+        hp.HParam("fully_connected_dropout", hp.Discrete([0.0, 0.1, 0.2])),
     ]
     dropout_permutations = ([
         {
@@ -110,7 +110,7 @@ def train_simple_rnn(use_previous=False):
             # "learning_rate": 0.001,
             "learning_rate": 0.005,
             # "training_epochs": 1,
-            "training_epochs": 10,
+            "training_epochs": 25,
             "batch_size": 64,
         }
 
@@ -132,9 +132,11 @@ def train_simple_rnn(use_previous=False):
                 model = simple_rnn_model(hyperparameters)
             callbacks = [
                 get_model_checkpoint(output_filepath=save_path), # Save best model found
-                tf.keras.callbacks.TensorBoard(log_dir=run_log_path),
                 hp.KerasCallback(run_log_path, dropout_params), # Log parameter tuning results
             ]
+
+            if add_tensorboard:
+                callbacks.append(tf.keras.callbacks.TensorBoard(log_dir=run_log_path))
 
             train_model(
                 model=model,
@@ -147,5 +149,6 @@ def train_simple_rnn(use_previous=False):
 
 
 if __name__ == "__main__":
-    use_previous = True
-    trained_model = train_simple_rnn(use_previous=use_previous)
+    use_previous = False
+    add_tensorboard = True
+    trained_model = train_simple_rnn(use_previous=use_previous, add_tensorboard=add_tensorboard)

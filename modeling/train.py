@@ -15,7 +15,7 @@ def get_model_checkpoint(output_filepath=None):
 
     return ModelCheckpoint(
         filepath=output_filepath,
-        save_freq="epoch",
+        save_freq=5,
         save_weights_only=False,
         save_best_only=True,
         monitor="val_rounded_equal",
