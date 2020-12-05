@@ -8,6 +8,7 @@ from tensorflow.keras.models import load_model
 import tensorflow as tf
 from tensorflow import get_logger
 from tensorboard.plugins.hparams import api as hp
+import argparse
 get_logger().setLevel('ERROR')
 
 from preprocessing.document_manager import DocumentManager
@@ -149,6 +150,10 @@ def train_simple_rnn(use_previous=False, add_tensorboard=True):
 
 
 if __name__ == "__main__":
-    use_previous = False
-    add_tensorboard = True
-    trained_model = train_simple_rnn(use_previous=use_previous, add_tensorboard=add_tensorboard)
+    parser = argparse.ArgumentParser(description="Train a tensorflow RNN model.")
+    parser.add_argument("use_previous", default=False)
+    parser.add_argument("add_tensorboard", default=False)
+
+    args = parser.parse_args()
+    print("\nTraining with use_previous %s and add_tensorboard %s\n" % (args.use_previous, args.add_tensorboard))
+    trained_model = train_simple_rnn(use_previous=args.use_previous, add_tensorboard=args.add_tensorboard)
