@@ -9,9 +9,12 @@ else:
 
 REPO_ROOT = join(ALL_REPOS_ROOT, "chinese-sentiment-classification")
 
-REN_CEC_PATH = join(ALL_REPOS_ROOT, "Ren_CECps-Dictionary")
+REN_CEC_PATH = os.getenv("REN_CEC_PATH", default=join(ALL_REPOS_ROOT, "Ren_CECps-Dictionary"))
 DATA_PATH = join(REN_CEC_PATH, "data/CEC_emotionCoprus")
-EMBEDDING_DATA_ROOT = join(ALL_REPOS_ROOT, "chinese-sentiment-classification-data", "embedding")
+
+
+EMBEDDING_DATA_ROOT = os.getenv("EMBEDDING_DATA_ROOT",
+	default=join(ALL_REPOS_ROOT, "chinese-sentiment-classification-data", "embedding"))
 RAW_WORD_EMBEDDING_PATH = join(EMBEDDING_DATA_ROOT, "Tencent_AILab_ChineseEmbedding.txt")
 
 EMBEDDING_MATRIX_NAME = "embedding_matrix_for_vocabulary.pkl"
