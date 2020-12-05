@@ -11,6 +11,9 @@ Recurrent neural network models which classify the emotion expressed in an input
   * /visualization.ipynb - A notebook to graph distribution of sentiment labels and randomly sample and read individual blog posts.
 * /modeling
   * Implementation of models utilizing Tensorflow Keras LSTM neural networks.
+* /deployment
+  * `linode_stackscript.sh` - Automates deployment of a remote Tensorflow training server on Linode.
+  * `setup_tf_server.py` - Copy raw and preprocessed data to a remote training server.
 
 ## Prerequisites
 
