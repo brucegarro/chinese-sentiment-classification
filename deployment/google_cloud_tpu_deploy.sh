@@ -20,7 +20,7 @@ ctpu up --project=${PROJECT_ID} \
  --tf-version=2.3.1 \
  --name=chinese-sentiment-classification
 
-# SSH into the instance
+# SSH into the instance (if necessary)
 gcloud compute ssh chinese-sentiment-classification --zone=us-central1-b
 
  # Setup Environment variables after SSH
@@ -30,7 +30,12 @@ export BUCKET_ADDRESS="gs://$CSC_BUCKET_NAME"
 
 mkdir ~/repos
 
-# TODO: Download the whole bucket to ~/buckets, then down REN_CEC_PATH and chinese-sentiment-classification-data
+# Download data from Google Cloud Storage buckets and then symlink them to expected filesystem locations
+mkdir ~/buckets
+(gsutil -m cp -R $BUCKET_ADDRESS ~/buckets)
+
+ln -s ~/buckets/$CSC_BUCKET_NAME/repos/Ren_CECps-Dictionary/ ~/repos/Ren_CECps-Dictionary
+ln -s ~/buckets/$CSC_BUCKET_NAME/chinese-sentiment-classification-data/ ~/repos/chinese-sentiment-classification-data
 
 # Clone project git repository
 (cd ~/repos && git clone https://github.com/brucegarro/chinese-sentiment-classification.git)
@@ -40,10 +45,11 @@ pip3 install -r ~/repos/chinese-sentiment-classification/requirements.txt
 
 # Setup some environment variables used in the project
 export PYTHONPATH="${PYTHONPATH}:$HOME/repos/chinese-sentiment-classification"
-export REN_CEC_PATH="$BUCKET_ADDRESS/repos/Ren_CECps-Dictionary/"
-export EMBEDDING_DATA_ROOT="$BUCKET_ADDRESS/chinese-sentiment-classification-data/embedding/"
-export REPO_PATH="$HOME/repos/chinese-sentiment-classification/"
+export REPO_PATH="$HOME/repos/"
 
+# Run a test model
+cd ~/repos/chinese-sentiment-classification/
+python3 modeling/simple_rnn_tpu.py False False
 
 # How to Cleanup
 exit
