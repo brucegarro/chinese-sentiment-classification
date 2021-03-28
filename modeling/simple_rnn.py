@@ -149,6 +149,17 @@ def train_simple_rnn(use_previous=False, add_tensorboard=True):
     return model
 
 
+def initialize_tpu():
+    try:
+        tpu = tf.distribute.cluster_resolver.TPUClusterResolver()  # TPU detection
+        print("Running on TPU ", tpu.cluster_spec().as_dict()["worker"])
+
+        tf.config.experimental_connect_to_cluster(tpu)
+        tf.tpu.experimental.initialize_tpu_system(tpu)
+        tpu_strategy = tf.distribute.experimental.TPUStrategy(tpu)
+    except ValueError:
+        raise Exception("ERROR: Not connected to a TPU runtime")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a tensorflow RNN model.")
     parser.add_argument("use_previous", default=False)
@@ -156,4 +167,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     print("\nTraining with use_previous %s and add_tensorboard %s\n" % (args.use_previous, args.add_tensorboard))
+
+    try:
+        initialize_tpu()
+    except Exception:
+        print("TPU initialization unsuccessful. continuing...")
+
     trained_model = train_simple_rnn(use_previous=args.use_previous, add_tensorboard=args.add_tensorboard)

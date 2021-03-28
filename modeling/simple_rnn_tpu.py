@@ -112,7 +112,7 @@ def train_simple_rnn(use_previous=False, add_tensorboard=True):
             "learning_rate": 0.005,
             # "training_epochs": 1,
             "training_epochs": 25,
-            "batch_size": 64,
+            "batch_size": 1024,
         }
 
         save_path = "_".join([SIMPLE_RNN_PATH, tag])

@@ -19,9 +19,10 @@ ctpu up --project=${PROJECT_ID} \
  --zone=us-central1-b \
  --tf-version=2.3.1 \
  --name=chinese-sentiment-classification
+ --preemptible-vm
 
 # SSH into the instance (if necessary)
-gcloud compute ssh chinese-sentiment-classification --zone=us-central1-b
+# gcloud compute ssh chinese-sentiment-classification --zone=us-central1-b
 
  # Setup Environment variables after SSH
 export TPU_NAME="chinese-sentiment-classification"
