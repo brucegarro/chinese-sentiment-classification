@@ -1,3 +1,5 @@
+import jieba
+
 from preprocessing.enums import EmotionTag
 
 TAG_TO_NAME_MAP = {
@@ -5,6 +7,11 @@ TAG_TO_NAME_MAP = {
     "Polarity": ("polarity", lambda x: x),
     "Topic": ("topic", lambda x: x),
 }
+
+def cut_text(text):
+    seg_list = jieba.cut(text, cut_all=False)
+    new_text = " ".join(seg_list)
+    return new_text
 
 def get_emotion_labels(element):
     """

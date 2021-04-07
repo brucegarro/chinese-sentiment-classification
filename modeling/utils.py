@@ -3,7 +3,7 @@ from tensorflow.keras.layers import Embedding
 from tensorflow.keras.initializers import Constant
 
 from preprocessing.word_embeddings import load_pkl
-from settings.settings import EMBEDDING_MATRIX_PATH, KERAS_TOKENIZER_PATH
+from settings.settings import PROJECT_SETTINGS
 
 
 def get_gpu_configurations():
@@ -12,11 +12,11 @@ def get_gpu_configurations():
     return gpu_options
 
 def get_tokenizer():
-    tokenizer = load_pkl(KERAS_TOKENIZER_PATH)
+    tokenizer = load_pkl(PROJECT_SETTINGS.TOKENIZER_PATH)
     return tokenizer
 
 def get_embedding_layer():
-    embedding_matrix = load_pkl(EMBEDDING_MATRIX_PATH)
+    embedding_matrix = load_pkl(PROJECT_SETTINGS.EMBEDDING_MATRIX_PATH)
 
     num_tokens, embedding_dim = embedding_matrix.shape
 
