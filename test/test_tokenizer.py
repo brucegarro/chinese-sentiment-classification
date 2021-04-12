@@ -59,17 +59,17 @@ class TestTokenizer(object):
 
     def test_pad_sequences_pads_to_len_of_longest_sequence(self):
         sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
-        expected_result = np.array([[3, 19, 9, 5, 20], [0, 23, 60, 57, 5], [0, 0, 58, 5, 8]])
+        expected_result = np.array([[3, 19, 9, 5, 20], [0, 23, 60, 57, 5], [0, 0, 58, 5, 8]], dtype=object)
         np.testing.assert_array_equal(self.pad_sequences(sequence), expected_result)
 
     def test_pad_sequences_pads_to_left_side(self):
         sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
-        expected_result = np.array([[0, 0, 3, 19, 9, 5, 20], [0, 0, 0, 23, 60, 57, 5], [0, 0, 0, 0, 58, 5, 8]])
+        expected_result = np.array([[0, 0, 3, 19, 9, 5, 20], [0, 0, 0, 23, 60, 57, 5], [0, 0, 0, 0, 58, 5, 8]], dtype=object)
         np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=7), expected_result)
 
     def test_pad_sequences_truncates_right_side(self):
         sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
-        expected_result = np.array([[3, 19, 9], [23, 60, 57], [58, 5, 8]])
+        expected_result = np.array([[3, 19, 9], [23, 60, 57], [58, 5, 8]], dtype=object)
         np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=3, truncating="post"), expected_result)
 
 
