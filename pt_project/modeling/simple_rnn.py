@@ -1,4 +1,6 @@
+import torch
 import torch.nn as nn
+import torch.optim as optim
 
 from pt_project.modeling.embedding_layer import get_embedding_layer
 from pt_project.pt_datafactory import PTDataFactory
@@ -41,8 +43,8 @@ class SimpleRNN(nn.Module):
 
 
 if __name__ == "__main__":
-    net = SimpleRNN()
-    print(net)
+    model = SimpleRNN()
+    print(model)
 
     # Load dataset
     tokenizer = get_tokenizer()
@@ -56,3 +58,11 @@ if __name__ == "__main__":
 
     trainloader = pt_data_factory.get_train_dataloader()
     validloader = pt_data_factory.get_valid_dataloader()
+
+    # Set model to GPU config
+    device = torch.device("cuda:0")
+    model.to(device)
+
+    # Set loss function and define optimizer
+    loss_function = torch.nn.MSELoss()
+    optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
