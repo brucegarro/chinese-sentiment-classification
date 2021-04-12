@@ -1,8 +1,8 @@
 import numpy as np
 import functools
 import operator
-from tensorflow.keras.preprocessing.sequence import pad_sequences
 
+from preprocessing.utils import pad_sequences
 from preprocessing.enums import EmotionTag
 
 
@@ -36,7 +36,7 @@ class DatasetManager(object):
         return sequence
 
     def get_labels_as_array(self, all_sentence_labels):
-        label_matrix = np.zeros((len(all_sentence_labels), len(EmotionTag)))
+        label_matrix = np.zeros((len(all_sentence_labels), len(EmotionTag)), dtype=int)
         for i, label in enumerate(all_sentence_labels):
             label_matrix[i] = np.array([ label[tag_enum.value] for tag_enum in EmotionTag ])
         return label_matrix
@@ -45,7 +45,7 @@ class DatasetManager(object):
         all_sentence_texts, all_sentence_labels = doc_manager.get_all_sentences_and_labels()
 
         sentence_sequences = [ self.text_to_sequence(text) for text in all_sentence_texts ]
-        sentences_matrix = pad_sequences(sentence_sequences, maxlen=self.max_sequence_length)
+        sentences_matrix = pad_sequences(sentence_sequences, maxlen=self.max_sequence_length).astype(int)
 
         labels_matrix = self.get_labels_as_array(all_sentence_labels)
         return np.array(all_sentence_texts), sentences_matrix, labels_matrix
@@ -88,7 +88,7 @@ class DatasetManager(object):
             "valid_texts": sentence_texts[valid_indices],
             "valid_sequences": sentences_matrix[valid_indices],
             "valid_labels": labels_matrix[valid_indices],
-            "test_test": sentence_texts[test_indices],
+            "test_text": sentence_texts[test_indices],
             "test_sequences": sentences_matrix[test_indices],
             "test_labels": labels_matrix[test_indices],
         }
