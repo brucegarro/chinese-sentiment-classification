@@ -2,10 +2,12 @@ import unittest
 import numpy as np
 
 import jieba
-from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.text import Tokenizer as KerasTokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from preprocessing.utils import cut_text
+from preprocessing.utils import pad_sequences as custom_pad_sequences
+from pt_project.tokenizer import Tokenizer as CustomTokenizer
 
 
 SENTENCES_TEXTS = [
@@ -13,25 +15,18 @@ SENTENCES_TEXTS = [
     "现在好了，我终于如愿以偿。",
     "感受着小手的温度，享受着这份她对我的依恋，生怕动一下会让她的小手离我而去。"
 ]
-TOKENIZED_RAW_TEXTS = [
+SPLIT_RAW_TEXTS = [
     "她们 都 睡 了 ， 我 蹑手蹑脚 摸黑 上 了 床 ， 凑上去 想亲 嫣 一下 ， 她 突然 一个 转身 ， 小手 “ 啪 ” 地 搭 在 了 我 的 脸颊 上 ， 我 便 被 施 了 魔法 似地 定住 了 ， 每次 抱 着 嫣 的 时候 总想 让 她 的 小手 搂 着 我 的 脖子 ， 可 她 总是 不肯 ， 她 的 两只 小手 要 指挥 着 我 的 方向 ， 要 指着 她 感兴趣 的 东西 ， 一刻 也 不肯 停闲 。",
     "现在 好 了 ， 我 终于 如愿以偿 。",
     "感受 着 小手 的 温度 ， 享受 着 这份 她 对 我 的 依恋 ， 生怕 动 一下 会 让 她 的 小手 离 我 而 去 。"
 ]
 EXAMPLE_TEXTS = ["我摸黑上了床", "突然感受好了", "终于睡觉了。"]
-TOKENIZED_EXAMPLE_TEXTS = ["我 摸黑 上 了 床", "突然 感受 好 了", "终于 睡觉 了 。"]
+SPLIT_EXAMPLE_TEXTS = ["我 摸黑 上 了 床", "突然 感受 好 了", "终于 睡觉 了 。"]
 
 class TestTokenizer(object):
     def test_cut_texts(self):
-        tokenized_raw_texts = [ cut_text(text) for text in SENTENCES_TEXTS ]
-        self.assertEqual(tokenized_raw_texts, TOKENIZED_RAW_TEXTS)
-
-
-class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
-    def setUp(self):
-        self.tokenizer = Tokenizer()
-        self.tokenizer.fit_on_texts(TOKENIZED_RAW_TEXTS)
-        self.pad_sequences = pad_sequences
+        SPLIT_raw_texts = [ cut_text(text) for text in SENTENCES_TEXTS ]
+        self.assertEqual(SPLIT_raw_texts, SPLIT_RAW_TEXTS)
 
     def test_fit_on_texts_counts_words(self):
         self.assertEqual(
@@ -49,16 +44,16 @@ class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
             (
                 self.tokenizer.word_index["，"], self.tokenizer.word_index["的"],
                 self.tokenizer.word_index["我"], self.tokenizer.word_index["她"],
-                self.tokenizer.word_index["了"], len(self.tokenizer.word_index),
+                self.tokenizer.word_index["指挥"], len(self.tokenizer.word_index),
             ),
-            (1,2,3,4,5, 71)
+            (1, 2, 3, 4, 48, 71)
         )
 
     def test_texts_to_sequences(self):
         # 睡觉 not in the tokenizer
         expected_result = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
         self.assertEqual(
-            self.tokenizer.texts_to_sequences(TOKENIZED_EXAMPLE_TEXTS),
+            self.tokenizer.texts_to_sequences(SPLIT_EXAMPLE_TEXTS),
             expected_result
         )
 
@@ -76,3 +71,17 @@ class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
         sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
         expected_result = np.array([[3, 19, 9], [23, 60, 57], [58, 5, 8]])
         np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=3, truncating="post"), expected_result)
+
+
+class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
+    def setUp(self):
+        self.tokenizer = KerasTokenizer()
+        self.tokenizer.fit_on_texts(SPLIT_RAW_TEXTS)
+        self.pad_sequences = pad_sequences
+
+
+class TestCustomTokenizer(TestTokenizer, unittest.TestCase):
+    def setUp(self):
+        self.tokenizer = CustomTokenizer()
+        self.tokenizer.fit_on_texts(SPLIT_RAW_TEXTS)
+        self.pad_sequences = custom_pad_sequences

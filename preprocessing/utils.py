@@ -33,3 +33,6 @@ def get_data_by_tags(element):
             val = TAG_TO_NAME_MAP[node.tag][1](node.text)
             data[tag] = val
     return data
+
+def pad_sequences(raw_texts):
+    pass
