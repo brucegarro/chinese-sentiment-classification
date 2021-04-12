@@ -72,6 +72,11 @@ class TestTokenizer(object):
         expected_result = np.array([[3, 19, 9], [23, 60, 57], [58, 5, 8]], dtype=object)
         np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=3, truncating="post"), expected_result)
 
+    def test_pad_sequences_truncates_left_side_by_default(self):
+        sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
+        expected_result = np.array([[9, 5, 20], [60, 57, 5], [58, 5, 8]], dtype=object)
+        np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=3), expected_result)
+
 
 class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
     def setUp(self):
