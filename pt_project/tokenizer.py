@@ -12,17 +12,6 @@ class Tokenizer(object):
         self.word_counts = OrderedDict()
         self.word_index = {}
 
-    @staticmethod
-    def compare_tokens(a, b):
-        a_tok, a_ct = a
-        b_tok, b_ct = b
-        if a_ct != b_ct:
-            return a_ct > b_ct
-        if a_tok != b_tok:
-            return a_ct < b_ct
-        return True
-
-
     def fit_on_texts(self, split_texts):
         """
         Updates tokenizer properties: word_index, document_count, word_counts (optional), word_docs (optional)
