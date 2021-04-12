@@ -1,7 +1,9 @@
 import unittest
+import numpy as np
 
 import jieba
 from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 from preprocessing.utils import cut_text
 
@@ -16,6 +18,8 @@ TOKENIZED_RAW_TEXTS = [
     "现在 好 了 ， 我 终于 如愿以偿 。",
     "感受 着 小手 的 温度 ， 享受 着 这份 她 对 我 的 依恋 ， 生怕 动 一下 会 让 她 的 小手 离 我 而 去 。"
 ]
+EXAMPLE_TEXTS = ["我摸黑上了床", "突然感受好了", "终于睡觉了。"]
+TOKENIZED_EXAMPLE_TEXTS = ["我 摸黑 上 了 床", "突然 感受 好 了", "终于 睡觉 了 。"]
 
 class TestTokenizer(object):
     def test_cut_texts(self):
@@ -26,9 +30,10 @@ class TestTokenizer(object):
 class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
     def setUp(self):
         self.tokenizer = Tokenizer()
+        self.tokenizer.fit_on_texts(TOKENIZED_RAW_TEXTS)
+        self.pad_sequences = pad_sequences
 
     def test_fit_on_texts_counts_words(self):
-        self.tokenizer.fit_on_texts(TOKENIZED_RAW_TEXTS)
         self.assertEqual(
             (
                 self.tokenizer.word_counts["蹑手蹑脚"],
@@ -36,5 +41,38 @@ class TestKerasTokenizer(TestTokenizer, unittest.TestCase):
                 self.tokenizer.word_counts["。"],
                 self.tokenizer.word_counts["魔法"],
             ),
-            (1, 10, 3, 1)
+            (1, 10, 3, 1),
         )
+
+    def test_fit_on_texts_creates_word_index(self):
+        self.assertEqual(
+            (
+                self.tokenizer.word_index["，"], self.tokenizer.word_index["的"],
+                self.tokenizer.word_index["我"], self.tokenizer.word_index["她"],
+                self.tokenizer.word_index["了"], len(self.tokenizer.word_index),
+            ),
+            (1,2,3,4,5, 71)
+        )
+
+    def test_texts_to_sequences(self):
+        # 睡觉 not in the tokenizer
+        expected_result = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
+        self.assertEqual(
+            self.tokenizer.texts_to_sequences(TOKENIZED_EXAMPLE_TEXTS),
+            expected_result
+        )
+
+    def test_pad_sequences_pads_to_len_of_longest_sequence(self):
+        sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
+        expected_result = np.array([[3, 19, 9, 5, 20], [0, 23, 60, 57, 5], [0, 0, 58, 5, 8]])
+        np.testing.assert_array_equal(self.pad_sequences(sequence), expected_result)
+
+    def test_pad_sequences_pads_to_left_side(self):
+        sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
+        expected_result = np.array([[0, 0, 3, 19, 9, 5, 20], [0, 0, 0, 23, 60, 57, 5], [0, 0, 0, 0, 58, 5, 8]])
+        np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=7), expected_result)
+
+    def test_pad_sequences_truncates_right_side(self):
+        sequence = [[3, 19, 9, 5, 20], [23, 60, 57, 5], [58, 5, 8]]
+        expected_result = np.array([[3, 19, 9], [23, 60, 57], [58, 5, 8]])
+        np.testing.assert_array_equal(self.pad_sequences(sequence, maxlen=3, truncating="post"), expected_result)
