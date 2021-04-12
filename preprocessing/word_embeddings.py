@@ -25,7 +25,7 @@ def get_embeddings_matrix(tokenizer, embedding_input_path):
     Input
     -----
     embedding_input_path - str: a complete filepath for 'Tencent_AILab_ChineseEmbedding.txt'
-    tokenizer - Tokenizer: A Keras tokizer object pre-compiled with a target vocabulary
+    tokenizer - Tokenizer: A Keras or Custom-made toeknizer object pre-compiled with a target vocabulary
     
     References
     ----------

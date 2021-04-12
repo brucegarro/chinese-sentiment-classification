@@ -11,12 +11,16 @@ def get_gpu_configurations():
     gpu_options = GPUOptions(per_process_gpu_memory_fraction=GLOBAL_GPU_USAGE_LIMIT)
     return gpu_options
 
-def get_tokenizer():
-    tokenizer = load_pkl(PROJECT_SETTINGS.TOKENIZER_PATH)
+def get_tokenizer(path=PROJECT_SETTINGS.TOKENIZER_PATH):
+    tokenizer = load_pkl(path)
     return tokenizer
 
+def get_embedding_matrix(path=PROJECT_SETTINGS.EMBEDDING_MATRIX_PATH):
+    embedding_matrix = load_pkl(path)
+    return embedding_matrix
+
 def get_embedding_layer():
-    embedding_matrix = load_pkl(PROJECT_SETTINGS.EMBEDDING_MATRIX_PATH)
+    embedding_matrix = get_embedding_matrix()
 
     num_tokens, embedding_dim = embedding_matrix.shape
 
