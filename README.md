@@ -19,8 +19,3 @@ Recurrent neural network models which classify the emotion expressed in an input
 
 The training code was developed on a single instance Ubuntu 18.04.1 machine using an Nvidia GeForce RTX 2070 8GB GPU
 
-## Download Datasets
-
-This project contains code to process the Ren-CECps dataset. This can be obtained by contacting the publisher through this link: http://a1-www.is.tokushima-u.ac.jp/member/ren/Ren-CECps1.0/Ren-CECps1.0.html
-
-This project also makes use of the Tencent AILab word embeddings for preprocessing text before feeding into models for training. Find the word embeddings here: https://ai.tencent.com/ailab/nlp/en/embedding.html
